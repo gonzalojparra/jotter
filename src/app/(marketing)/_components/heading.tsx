@@ -11,7 +11,7 @@ export default function Heading() {
       <h3 className='text-base sm:text-xl md:text-2xl font-medium'>
         Jotter is the connected workspace where <br/> better, faster work happens.
       </h3>
-      <Button>
+      <Button variant='secondary'>
         Enter Jotter
         <ArrowRight className='h-4 w-4 ml-2' />
       </Button>
