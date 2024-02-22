@@ -8,7 +8,13 @@ export default function Hero() {
           <Image
             src='/documents.png'
             alt='Documents'
-            className='object-contain'
+            className='dark:hidden object-contain'
+            fill
+          />
+          <Image
+            src='/documents-dark.png'
+            alt='Documents'
+            className='hidden dark:block object-contain'
             fill
           />
         </div>
@@ -16,7 +22,13 @@ export default function Hero() {
           <Image
             src='/reading.png'
             alt='Reading'
-            className='object-contain'
+            className='dark:hidden object-contain'
+            fill
+          />
+          <Image
+            src='/reading-dark.png'
+            alt='Reading'
+            className='hidden dark:block object-contain'
             fill
           />
         </div>

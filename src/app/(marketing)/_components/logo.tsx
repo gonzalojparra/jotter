@@ -16,6 +16,14 @@ export default function Logo() {
         alt='Jotter logo'
         height={40}
         width={40}
+        className='dark:hidden'
+      />
+      <Image
+        src='/logo-dark.svg'
+        alt='Jotter logo'
+        height={40}
+        width={40}
+        className='hidden dark:block'
       />
       <p className={cn('font-semibold', font.className)}>Jotter</p>
     </div>
