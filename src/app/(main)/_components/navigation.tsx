@@ -4,6 +4,8 @@ import { ElementRef, useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { usePathname } from 'next/navigation';
 
+import UserItem from './user-item';
+
 import { ChevronsLeftIcon, MenuIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -113,7 +115,7 @@ export default function Navigation() {
           <ChevronsLeftIcon className='h-6 w-6' />
         </div>
         <div>
-          <p>Action items</p>
+          <UserItem />
         </div>
         <div className='mt-4'>
           <p>Documents</p>
