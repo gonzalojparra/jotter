@@ -2,6 +2,7 @@
 
 import { useMutation } from 'convex/react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 
 import { Id } from '@/../convex/_generated/dataModel';
@@ -12,9 +13,10 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem
+  DropdownMenuItem,
+  DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus } from 'lucide-react';
+import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -45,6 +47,9 @@ export default function Item({
 }: ItemProps) {
   const router = useRouter();
   const create = useMutation(api.documents.create);
+  const archive = useMutation(api.documents.archive);
+
+  const { user } = useUser();
 
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -61,7 +66,7 @@ export default function Item({
         if (!expanded) {
           onExpand?.();
         }
-        router.push(`/documents/${documentId}`);
+        //router.push(`/documents/${documentId}`);
       });
 
     toast.promise(promise, {
@@ -70,6 +75,20 @@ export default function Item({
       error: 'Failed to create a new document'
     });
   };
+
+  const onArchive = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+
+    if (!id) return;
+
+    const promise = archive({ id });
+
+    toast.promise(promise, {
+      loading: 'Archiving document...',
+      success: 'Document archived!',
+      error: 'Failed to archive document'
+    });
+  }
 
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
@@ -124,6 +143,21 @@ export default function Item({
                 <MoreHorizontal className='h-4 w-4 text-muted-foreground' />
               </div>
             </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className='w-60'
+              align='start'
+              side='right'
+              forceMount
+            >
+              <DropdownMenuItem onClick={onArchive}>
+                <Trash className='h-4 w-4 mr-2' />
+                Delete
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <div className='text-xs text-muted-foreground p-2'>
+                Last edited by: {user?.fullName}
+              </div>
+            </DropdownMenuContent>
           </DropdownMenu>
           <div
             role='button'
