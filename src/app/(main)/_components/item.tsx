@@ -34,8 +34,9 @@ export default function Item({
 }: ItemProps) {
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
-  const handleExpand = () => {
-    console.log('expand');
+  const handleExpand = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    onExpand?.();
   };
 
   return (
