@@ -3,19 +3,22 @@
 import { ElementRef, useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { usePathname } from 'next/navigation';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 
 import UserItem from './user-item';
+import Item from './item';
 
-import { ChevronsLeftIcon, MenuIcon } from 'lucide-react';
+import {ChevronsLeftIcon,MenuIcon,PlusCircle, Search, Settings} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { api } from '@/../convex/_generated/api';
+import { toast } from 'sonner';
 
 export default function Navigation() {
   const pathname = usePathname();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const documents = useQuery(api.documents.get);
+  const create = useMutation(api.documents.create);
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<'aside'>>(null);
@@ -83,7 +86,7 @@ export default function Navigation() {
       );
       setTimeout(() => setIsResetting(false), 300);
     }
-  }
+  };
 
   const collapse = () => {
     if (sidebarRef.current && navbarRef.current) {
@@ -95,7 +98,17 @@ export default function Navigation() {
       navbarRef.current.style.setProperty('left', '0');
       setTimeout(() => setIsResetting(false), 300);
     }
-  }
+  };
+
+  const handleCreate = () => {
+    const promise = create({ title: 'Untitled' });
+
+    toast.promise(promise, {
+      loading: 'Creating document...',
+      success: 'Document created!',
+      error: 'Failed to create document'
+    });
+  };
 
   return (
     <>
@@ -119,6 +132,22 @@ export default function Navigation() {
         </div>
         <div>
           <UserItem />
+          <Item
+            label='Search'
+            icon={Search}
+            isSearch
+            onClick={() => {}}
+          />
+          <Item
+            label='Settings'
+            icon={Settings}
+            onClick={() => {}}
+          />
+          <Item
+            label='Create document'
+            icon={PlusCircle}
+            onClick={handleCreate}
+          />
         </div>
         <div className='mt-4'>
           {documents?.map((document) => (
