@@ -30,7 +30,7 @@ export default function RootLayout({
             storageKey='jotter-theme'
             enableSystem
           >
-            <Toaster position='bottom-center' />
+            <Toaster position='bottom-center' richColors />
             {children}
           </ThemeProvider>
         </ConvexClientProvider>

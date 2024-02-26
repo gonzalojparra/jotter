@@ -1,8 +1,14 @@
 'use client'
 
-import { Id } from '@/../convex/_generated/dataModel';
+import { useMutation } from 'convex/react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
-import { ChevronDown, ChevronRight, LucideIcon } from 'lucide-react';
+import { Id } from '@/../convex/_generated/dataModel';
+import { api } from '@/../convex/_generated/api';
+
+import { Skeleton } from '@/components/ui/skeleton';
+import { ChevronDown, ChevronRight, LucideIcon, Plus } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -31,11 +37,35 @@ export default function Item({
   onExpand,
   expanded
 }: ItemProps) {
-  const ChevronIcon = expanded ? ChevronDown : ChevronRight;
-
-  const handleExpand = () => {
-    console.log('expand');
+  const router = useRouter();
+  const create = useMutation(api.documents.create);
+  
+  const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    onExpand?.();
   };
+  
+  const onCreate = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+
+    if (!id) return;
+    
+    const promise = create({ title: 'Untitled', parentDocument: id })
+      .then((documentId) => {
+        if (!expanded) {
+          onExpand?.();
+        }
+        router.push(`/documents/${documentId}`);
+      });
+    
+    toast.promise(promise, {
+      loading: 'Creating a new document...',
+      success: 'Document created!',
+      error: 'Failed to create a new document'
+    });
+  };
+
+  const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
   return (
     <div
@@ -53,7 +83,7 @@ export default function Item({
       {!!id && (
         <div
           role='button'
-          className='h-full rounded-sm hover:bg-neutral-300 dark:hover-bg-neutral-600 mr-1'
+          className='h-full rounded-sm hover:bg-neutral-300 dark:hover-bg-neutral-600 mr-1 transition-all'
           onClick={handleExpand}
         >
           <ChevronIcon className='h-4 w-4 shrink-0 text-muted-foreground/50' />
@@ -74,6 +104,31 @@ export default function Item({
           <span className='text-sm'>⌘</span>K
         </kbd>
       )}
+      {!!id && (
+        <div className='ml-auto flex items-center gap-x-2'>
+          <div
+            role='button'
+            onClick={onCreate}
+            className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all'
+          >
+            <Plus className='h-4 w-4 text-muted-foreground' />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
+  return (
+    <div
+      style={{
+        paddingLeft: level ? `${(level * 12) + 12}px` : '12px'
+      }}
+      className='flex gap-x-2 py-[3px]'
+    >
+      <Skeleton className='h-4 w-4' />
+      <Skeleton className='h-4 w-[30%]' />
     </div>
   )
 }
