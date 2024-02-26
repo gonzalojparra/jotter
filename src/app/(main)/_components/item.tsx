@@ -24,7 +24,7 @@ interface ItemProps {
   id?: Id<'documents'>;
   label: string;
   icon: LucideIcon;
-  onClick: () => void;
+  onClick?: () => void;
   active?: boolean;
   documentIcon?: string;
   isSearch?: boolean;
