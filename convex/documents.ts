@@ -89,7 +89,7 @@ export const archive = mutation({
             .eq('parentDocument', documentId)
         ))
         .collect();
-      
+
       // Implement for loop because map is not supported for promises
       for (const child of children) {
         await ctx.db.patch(child._id, {

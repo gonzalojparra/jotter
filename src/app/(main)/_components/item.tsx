@@ -8,7 +8,13 @@ import { Id } from '@/../convex/_generated/dataModel';
 import { api } from '@/../convex/_generated/api';
 
 import { Skeleton } from '@/components/ui/skeleton';
-import { ChevronDown, ChevronRight, LucideIcon, Plus } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from '@/components/ui/dropdown-menu';
+import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -39,17 +45,17 @@ export default function Item({
 }: ItemProps) {
   const router = useRouter();
   const create = useMutation(api.documents.create);
-  
+
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     onExpand?.();
   };
-  
+
   const onCreate = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
 
     if (!id) return;
-    
+
     const promise = create({ title: 'Untitled', parentDocument: id })
       .then((documentId) => {
         if (!expanded) {
@@ -57,7 +63,7 @@ export default function Item({
         }
         router.push(`/documents/${documentId}`);
       });
-    
+
     toast.promise(promise, {
       loading: 'Creating a new document...',
       success: 'Document created!',
@@ -106,6 +112,19 @@ export default function Item({
       )}
       {!!id && (
         <div className='ml-auto flex items-center gap-x-2'>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              asChild
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                role='button'
+                className='opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all'
+              >
+                <MoreHorizontal className='h-4 w-4 text-muted-foreground' />
+              </div>
+            </DropdownMenuTrigger>
+          </DropdownMenu>
           <div
             role='button'
             onClick={onCreate}
