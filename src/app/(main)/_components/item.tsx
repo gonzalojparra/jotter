@@ -16,7 +16,14 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  LucideIcon,
+  MoreHorizontal,
+  Plus,
+  Trash
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -108,7 +115,7 @@ export default function Item({
       {!!id && (
         <div
           role='button'
-          className='h-full rounded-sm hover:bg-neutral-300 dark:hover-bg-neutral-600 mr-1 transition-all'
+          className='h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1 transition-all'
           onClick={handleExpand}
         >
           <ChevronIcon className='h-4 w-4 shrink-0 text-muted-foreground/50' />

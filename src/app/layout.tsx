@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 
 import { ConvexClientProvider } from '@/components/providers/convex-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { ModalProvider } from '@/components/providers/modal-provider';
 
 import './globals.css';
 
@@ -31,6 +32,7 @@ export default function RootLayout({
             enableSystem
           >
             <Toaster position='bottom-center' richColors />
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </ConvexClientProvider>

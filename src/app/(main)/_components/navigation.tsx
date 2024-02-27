@@ -1,9 +1,11 @@
 'use client'
 
 import { ElementRef, useEffect, useRef, useState } from 'react';
-import { useMediaQuery } from '@/hooks/use-media-query';
 import { usePathname } from 'next/navigation';
 import { useMutation } from 'convex/react';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { useSearch } from '@/hooks/use-search';
+import { useSettings } from '@/hooks/use-settings';
 
 import UserItem from './user-item';
 import Item from './item';
@@ -30,6 +32,8 @@ import { api } from '@/../convex/_generated/api';
 import { toast } from 'sonner';
 
 export default function Navigation() {
+  const search = useSearch();
+  const settings = useSettings();
   const pathname = usePathname();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const create = useMutation(api.documents.create);
@@ -150,12 +154,12 @@ export default function Navigation() {
             label='Search'
             icon={Search}
             isSearch
-            onClick={() => { }}
+            onClick={search.onOpen}
           />
           <Item
             label='Settings'
             icon={Settings}
-            onClick={() => { }}
+            onClick={settings.onOpen}
           />
           <Item
             label='Create document'
