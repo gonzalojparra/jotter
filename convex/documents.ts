@@ -238,7 +238,37 @@ export const getSearch = query({
       )
       .order('desc')
       .collect();
-    
+
     return documents;
   }
 });
+
+export const getById = query({
+  args: { documentId: v.id('documents') },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    // We don't need to check if the user is authenticated here because we want to allow public access to documents
+    const document = await ctx.db.get(args.documentId);
+
+    if (!document) {
+      throw new Error('Document not found');
+    }
+
+    if (document.isPublished && !document.isArchived) {
+      return document;
+    }
+
+    if (!identity) {
+      throw new Error('Not authenticated');
+    }
+
+    const userId = identity.subject;
+
+    if (document.userId !== userId) {
+      throw new Error('Not authorized');
+    }
+
+    return document;
+  }
+})
