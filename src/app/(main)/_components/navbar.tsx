@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { api } from '@/../convex/_generated/api';
 import { Id } from '@/../convex/_generated/dataModel';
 
+import Title from './title';
 import { MenuIcon } from 'lucide-react';
 
 interface NavbarProps {
@@ -40,7 +41,7 @@ export default function Navbar({
         />
         )}
         <div className='flex items-center justify-between w-full'>
-          Navbar
+          <Title initialData={document} />
         </div>
     </nav>
   )
