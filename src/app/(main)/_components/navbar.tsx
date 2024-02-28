@@ -24,7 +24,11 @@ export default function Navbar({
   });
 
   if (document === undefined) {
-    return <p>Loading</p>
+    return (
+      <nav className='bg-background dark:bg-[#1F1F1F] px-3 py-1 w-full flex items-center'>
+        <Title.Skeleton />
+      </nav>
+    )
   }
 
   if (document === null) {
@@ -39,10 +43,10 @@ export default function Navbar({
           className='w-6 h-6 text-muted-foreground'
           onClick={onResetWidth}
         />
-        )}
-        <div className='flex items-center justify-between w-full'>
-          <Title initialData={document} />
-        </div>
+      )}
+      <div className='flex items-center justify-between w-full'>
+        <Title initialData={document} />
+      </div>
     </nav>
   )
 }

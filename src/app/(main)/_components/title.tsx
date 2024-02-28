@@ -8,6 +8,7 @@ import { Doc } from '@/../convex/_generated/dataModel';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface TitleProps {
   initialData: Doc<'documents'>
@@ -77,5 +78,11 @@ export default function Title({ initialData }: TitleProps) {
         </Button>
       )}
     </div>
+  )
+}
+
+Title.Skeleton = function TitleSkeleton() {
+  return (
+    <Skeleton className='h-6 w-20 rounded-md' />
   )
 }
