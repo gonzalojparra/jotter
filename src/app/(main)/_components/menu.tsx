@@ -51,7 +51,7 @@ export default function Menu({ documentId }: MenuProps) {
         alignOffset={8}
         forceMount
       >
-        <DropdownMenuItem onCanPlay={onArchive}>
+        <DropdownMenuItem onClick={onArchive}>
           <Trash className='h-4 w-4 mr-2' />
           Move to trash
         </DropdownMenuItem>
