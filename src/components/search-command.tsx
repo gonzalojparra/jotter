@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/command';
 import { File } from 'lucide-react';
 
-export const SearchCommand = () => {
+export function SearchCommand () {
   const { user } = useUser();
   const router = useRouter();
   const documents = useQuery(api.documents.getSearch);

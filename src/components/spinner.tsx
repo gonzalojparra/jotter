@@ -23,9 +23,9 @@ const spinnerVariants = cva(
 
 interface SpinnerProps extends VariantProps<typeof spinnerVariants> { }
 
-export const Spinner = ({
+export function Spinner({
   size
-}: SpinnerProps) => {
+}: SpinnerProps) {
   return (
     <Loader className={cn(spinnerVariants({ size }))} />
   )
