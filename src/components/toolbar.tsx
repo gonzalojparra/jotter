@@ -9,6 +9,7 @@ import { api } from '@/../convex/_generated/api';
 import { Button } from '@/components/ui/button';
 import { IconPicker } from './icon-picker';
 import { ImageIcon, Smile, X } from 'lucide-react';
+import TextareaAutosize from 'react-textarea-autosize';
 
 interface ToolbarProps {
   initialData: Doc<'documents'>;
@@ -25,7 +26,7 @@ export function Toolbar({
 
   const update = useMutation(api.documents.update);
 
-  const enableInputs = () => {
+  const enableInput = () => {
     if (preview) return;
 
     setIsEditing(true);
@@ -47,7 +48,7 @@ export function Toolbar({
     });
   };
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLAreaElement>) => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       disableInput();
@@ -98,13 +99,30 @@ export function Toolbar({
             variant='outline'
             size='sm'
             className='text-muted-foreground text-xs'
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <ImageIcon className='h-4 w-4 mr-2' />
             Add cover
           </Button>
         )}
       </div>
+      {isEditing && !preview ? (
+        <TextareaAutosize
+          value={value}
+          ref={inputRef}
+          onBlur={disableInput}
+          onKeyDown={onKeyDown}
+          onChange={(e) => onInput(e.target.value)}
+          className='text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] resize-none'
+        />
+      ) : (
+        <div
+          onClick={enableInput}
+          className='pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]'
+        >
+          {initialData.title}
+        </div>
+      )}
     </div>
   )
 }
