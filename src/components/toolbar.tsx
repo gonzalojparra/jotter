@@ -2,6 +2,7 @@
 
 import { ElementRef, useRef, useState } from 'react';
 import { useMutation } from 'convex/react';
+import { useCoverImage } from '@/hooks/use-cover-image';
 
 import { Doc } from '@/../convex/_generated/dataModel';
 import { api } from '@/../convex/_generated/api';
@@ -26,6 +27,8 @@ export function Toolbar({
 
   const update = useMutation(api.documents.update);
   const removeIcon = useMutation(api.documents.removeIcon);
+
+  const coverImage = useCoverImage();
 
   const enableInput = () => {
     if (preview) return;
@@ -113,7 +116,7 @@ export function Toolbar({
             variant='outline'
             size='sm'
             className='text-muted-foreground text-xs'
-            onClick={() => { }}
+            onClick={coverImage.onOpen}
           >
             <ImageIcon className='h-4 w-4 mr-2' />
             Add cover
