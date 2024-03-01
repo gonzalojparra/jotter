@@ -56,7 +56,7 @@ export function SearchCommand () {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search ${user?.fullName}'s Jottion`} />
+      <CommandInput placeholder={`Search ${user?.fullName}'s Jotter`} />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading='Documents'>

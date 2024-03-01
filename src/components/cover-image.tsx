@@ -2,8 +2,13 @@
 
 import Image from 'next/image';
 import { useCoverImage } from '@/hooks/use-cover-image';
+import { useMutation } from 'convex/react';
+import { useParams } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
+import { api } from '@/../convex/_generated/api';
+import { Id } from '@/../convex/_generated/dataModel';
+import { useEdgeStore } from '@/lib/edgestore';
 
 import { Button } from '@/components/ui/button';
 import { ImageIcon, X } from 'lucide-react';
@@ -18,6 +23,21 @@ export function CoverImage({
   preview
 }: CoverImageProps) {
   const coverImage = useCoverImage();
+  const params = useParams();
+  const removeCoverImage = useMutation(api.documents.removeCoverImage);
+
+  const { edgestore } = useEdgeStore();
+
+  const onRemove = async () => {
+    if (url) {
+      await edgestore.publicFiles.delete({
+        url: url
+      });
+    }
+    removeCoverImage({
+      id: params.documentId as Id<'documents'>
+    });
+  }
 
   return (
     <div className={cn(
@@ -38,7 +58,7 @@ export function CoverImage({
           <Button
             variant='outline'
             size='sm'
-            onClick={coverImage.onOpen}
+            onClick={() => coverImage.onReplace(url)}
             className='text-muted-foreground text-xs'
           >
             <ImageIcon className='h-4 w-4 mr-2' />
@@ -47,7 +67,7 @@ export function CoverImage({
           <Button
             variant='outline'
             size='sm'
-            onClick={() => { }}
+            onClick={onRemove}
             className='text-muted-foreground text-xs'
           >
             <X className='h-4 w-4 mr-2' />
