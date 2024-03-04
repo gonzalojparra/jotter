@@ -2,7 +2,9 @@
 
 import { BlockNoteEditor, PartialBlock } from '@blocknote/core';
 import { BlockNoteView, useBlockNote } from '@blocknote/react';
-import 'blocknote/core/style.css';
+import { useTheme } from 'next-themes';
+
+import '@blocknote/react/style.css';
 
 interface EditorProps {
   initialContent?: string;
@@ -15,9 +17,27 @@ export function Editor({
   editable,
   onChange
 }: EditorProps) {
+  const { resolvedTheme } = useTheme();
+  
+  const theme = resolvedTheme === 'dark' ? 'dark' : 'light';
+
+  const editor: BlockNoteEditor = useBlockNote({
+    editable,
+    initialContent:
+      initialContent
+      ? JSON.parse(initialContent) as PartialBlock[]
+      : undefined,
+    onEditorContentChange: (editor) => {
+      onChange(JSON.stringify(editor.topLevelBlocks, null, 2));
+    }
+  });
+
   return (
     <div>
-      Editor
+      <BlockNoteView
+        editor={editor}
+        theme={theme}
+      />
     </div>
   )
 }
