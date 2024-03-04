@@ -8,6 +8,7 @@ import { Id } from '@/../convex/_generated/dataModel';
 import { Toolbar } from '@/components/toolbar';
 import { CoverImage } from '@/components/cover-image';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Editor } from '@/components/editor';
 
 interface DocumentIdPageProps {
   /* The params variable comes from the dynamic route
@@ -49,6 +50,10 @@ export default function DocumentIdPage({
       <CoverImage url={document.coverImage} />
       <div className='md:max-w-3xl lg:max-w-4xl mx-auto'>
         <Toolbar initialData={document} />
+        <Editor
+          onChange={() => { }}
+          initialContent={document.content}
+        />
       </div>
     </div>
   )

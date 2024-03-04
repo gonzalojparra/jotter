@@ -11,7 +11,7 @@ import { Id } from '@/../convex/_generated/dataModel';
 import { useEdgeStore } from '@/lib/edgestore';
 
 import { Button } from '@/components/ui/button';
-import { Skeleton } from './ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ImageIcon, X } from 'lucide-react';
 
 interface CoverImageProps {
