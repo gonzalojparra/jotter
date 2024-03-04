@@ -73,7 +73,7 @@ export default function Item({
         if (!expanded) {
           onExpand?.();
         }
-        //router.push(`/documents/${documentId}`);
+        router.push(`/documents/${documentId}`);
       });
 
     toast.promise(promise, {
@@ -88,7 +88,10 @@ export default function Item({
 
     if (!id) return;
 
-    const promise = archive({ id });
+    const promise = archive({ id })
+      .then(() => {
+        router.push('/document')
+      });
 
     toast.promise(promise, {
       loading: 'Archiving document...',

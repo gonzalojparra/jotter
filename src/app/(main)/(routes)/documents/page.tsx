@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/clerk-react';
 import { useMutation } from 'convex/react';
 import { toast } from 'sonner';
@@ -13,10 +14,15 @@ import { PlusCircle } from 'lucide-react';
 
 export default function DocumentsPage() {
   const { user } = useUser();
+  const router = useRouter();
   const create = useMutation(api.documents.create);
 
   const handleCreateNote = () => {
-    const promise = create({ title: 'Untitled' });
+    const promise = create({ title: 'Untitled' })
+      .then((documentId) => {
+        router.push(`/documents/${documentId}`);
+      });
+
     toast.promise(promise, {
       loading: 'Creating note...',
       success: 'Note created!',

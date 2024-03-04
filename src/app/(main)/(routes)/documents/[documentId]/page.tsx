@@ -1,12 +1,14 @@
 'use client'
 
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 
 import { api } from '@/../convex/_generated/api';
 import { Id } from '@/../convex/_generated/dataModel';
 
 import { Toolbar } from '@/components/toolbar';
 import { CoverImage } from '@/components/cover-image';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Editor } from '@/components/editor';
 
 interface DocumentIdPageProps {
   /* The params variable comes from the dynamic route
@@ -23,8 +25,29 @@ export default function DocumentIdPage({
     documentId: documentId
   });
 
+  const update = useMutation(api.documents.update);
+
+  const onChange = (content: string) => {
+    update({
+      id: documentId,
+      content
+    });
+  };
+
   if (document === undefined) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <CoverImage.Skeleton />
+        <div className='md:max-w-3xl lg:max-w-4xl mx-auto'>
+          <div className='space-y-4 pl-8 pt-4'>
+            <Skeleton className='h-40 w-[50%]' />
+            <Skeleton className='h-4 w-[80%]' />
+            <Skeleton className='h-4 w-[40%]' />
+            <Skeleton className='h-4 w-[60%]' />
+          </div>
+        </div>
+      </div>
+    )
   }
 
   if (document === null) {
@@ -36,6 +59,10 @@ export default function DocumentIdPage({
       <CoverImage url={document.coverImage} />
       <div className='md:max-w-3xl lg:max-w-4xl mx-auto'>
         <Toolbar initialData={document} />
+        <Editor
+          onChange={onChange}
+          initialContent={document.content}
+        />
       </div>
     </div>
   )

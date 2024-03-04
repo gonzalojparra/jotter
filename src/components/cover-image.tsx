@@ -11,6 +11,7 @@ import { Id } from '@/../convex/_generated/dataModel';
 import { useEdgeStore } from '@/lib/edgestore';
 
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ImageIcon, X } from 'lucide-react';
 
 interface CoverImageProps {
@@ -76,5 +77,11 @@ export function CoverImage({
         </div>
       )}
     </div>
+  )
+}
+
+CoverImage.Skeleton = function CoverSkeleton() {
+  return (
+    <Skeleton className='w-full h-[12vh]' />
   )
 }
