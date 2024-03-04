@@ -1,7 +1,7 @@
 'use client'
 
 import { ElementRef, useEffect, useRef, useState } from 'react';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useSearch } from '@/hooks/use-search';
@@ -37,6 +37,7 @@ export default function Navigation() {
   const settings = useSettings();
   const params = useParams();
   const pathname = usePathname();
+  const router = useRouter();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const create = useMutation(api.documents.create);
 
@@ -121,7 +122,10 @@ export default function Navigation() {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: 'Untitled' });
+    const promise = create({ title: 'Untitled' })
+      .then((documentId) => {
+        router.push(`/documents/${documentId}`)
+      });
 
     toast.promise(promise, {
       loading: 'Creating document...',
