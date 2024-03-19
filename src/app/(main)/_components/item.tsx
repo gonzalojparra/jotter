@@ -88,10 +88,7 @@ export default function Item({
 
     if (!id) return;
 
-    const promise = archive({ id })
-      .then(() => {
-        router.push('/document')
-      });
+    const promise = archive({ id });
 
     toast.promise(promise, {
       loading: 'Archiving document...',
