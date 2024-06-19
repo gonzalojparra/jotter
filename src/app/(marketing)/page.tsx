@@ -1,15 +1,12 @@
-import Footer from './_components/footer';
-import Heading from './_components/heading';
-import Hero from './_components/hero';
-
-export default function Home() {
+export default function MarketingPage() {
   return (
-    <div className='min-h-full flex flex-col'>
-      <div className='flex flex-col items-center justify-center md:justify-start text-center gap-y-8 flex-1 px-6 pb-10'>
-        <Heading />
-        <Hero />
-      </div>
-      <Footer />
+    <div className='max-w-3xl space-y-4 px-2'>
+      <h1 className='text-3xl sm:text-5xl md:text-6xl font-bold'>
+        Your notes & documents. Unified. Welcome to <span className='underline'>Jotter</span>
+      </h1>
+      <h3 className='text-base sm:text-xl md:text-2xl'>
+        Jotter is a note-taking app that allows you to create, edit, and organize your notes and documents in one place.
+      </h3>
     </div>
-  );
+  )
 }
